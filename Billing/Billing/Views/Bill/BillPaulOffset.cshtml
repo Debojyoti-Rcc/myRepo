@@ -1,0 +1,131 @@
+﻿@model Billing.Models.ViewModel.PaulOffsetBillTemplateVM
+
+@{
+    ViewBag.Title = "BillPaulOffset";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<h2>Bill Paul-Offset</h2>
+
+@using (Html.BeginForm("GenerateBill", "Bill", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Paul-Offset Bill Template</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoOfColor, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.ChargePerThousand)*@
+                @*<select id="NoOfColor">
+                    <option value="1">Special Color</option>
+                </select>*@
+                @Html.DropDownListFor(model => model.NoOfColor, Model.NoOfColor,"Select Color")
+                @Html.ValidationMessageFor(model => model.NoOfColor)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ChargePerThousand, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ChargePerThousand)
+                @Html.ValidationMessageFor(model => model.ChargePerThousand)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Quantity)
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlateCharge, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PlateCharge)
+                @Html.ValidationMessageFor(model => model.PlateCharge)
+            </div>
+        </div>
+
+        <div class="form-group" id="divTotal" style="display:none">
+            @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Total)
+                @Html.ValidationMessageFor(model => model.Total)
+            </div>
+
+           @* @Html.ActionLink("Add-Party", new { @class = "control-label col-md-2" })*@
+            @*<a href="javascript:;" class="control-label col-md-2" id="AddParty">Add Party</a>*@
+                
+            <div class="form-group col-md-10" id="PlaceAddParty">
+                @Html.Label("Party Details", new { @class = "control-label col-md-2" })
+                
+            </div>
+            
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" id="btnCreate">
+                <input type="submit" value="Create" class="btn btn-default" id="btnCreate"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Calculate Printing Charge" class="btn btn-default" id="Calculate"/>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script type="text/javascript">
+    $(function(ready)
+    {
+        $("#NoOfColor").change(function(ready){
+        var selectedColorValue = $("#NoOfColor").val();
+        //alert(selectedColorValue);
+        var data1 = { "noOfColor": selectedColorValue };
+        var url = "http://localhost:8080/Bill/GetRate";
+        $.post(url, data1, function (data) {
+            //alert(data);
+            $("#ChargePerThousand").val(data);
+        })
+        })
+        $('#Calculate').click(function(ready)
+        {
+            var noOfColor = parseInt($('#NoOfColor').val());
+            var c = parseFloat($('#ChargePerThousand').val());
+            var q = parseInt($('#Quantity').val());
+            var pc = parseFloat($('#PlateCharge').val());
+            var total = ((c * q / 1000) + (pc * noOfColor)) * 1.18;
+            $('#Total').val(total);
+            $('#divTotal').show();
+            $('#btnCreate').removeAttr('disabled');
+        })
+        $('#AddParty').click(function(ready)
+        {
+            //alert('yo');
+            $.ajax(
+                {
+                    url: '/Bill/AddPartyDetailsBill',
+                    contentType: 'application/html;charset=utf-8',
+                    type: 'Get',
+                    dataType : 'html'
+                }).success(function (result) {
+                    $('#PlaceAddParty').html(result);
+                }).error(function (xhr, status) {
+                    alert(status);
+                })
+            
+        })
+    })
+</script>

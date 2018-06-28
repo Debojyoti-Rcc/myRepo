@@ -1,0 +1,109 @@
+﻿@model Billing.Models.ViewModel.PartyVM
+
+@{
+    ViewBag.Title = "RegisterParty";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<h2>RegisterParty</h2>
+
+
+@using (Html.BeginForm("RegisterParty","Party",FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>PartyVM</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompanyName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CompanyName)
+                @Html.ValidationMessageFor(model => model.CompanyName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MobileNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MobileNo)
+                @Html.ValidationMessageFor(model => model.MobileNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Registered, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Registered,new SelectList(Model.Registered,"Value","Text"))
+                @Html.ValidationMessageFor(model => model.GSTN_Number)
+            </div>
+        </div>
+
+        <div id="formGSTNumber" class="form-group">
+            @Html.LabelFor(model => model.GSTN_Number, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GSTN_Number)
+                @Html.ValidationMessageFor(model => model.GSTN_Number)
+            </div>
+        </div>
+
+        <div class="form-group"style="display:none" id="formPanNumber">
+            @Html.LabelFor(model => model.PanNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PanNo)
+                @Html.ValidationMessageFor(model => model.PanNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
+    $(function(ready)
+    {
+        $("#Registered").change(function () {
+            //alert($("#Registered").val());
+            var register = $("#Registered").val();
+            if(register == 'Y')
+            {
+                //alert("Checked!!")
+                $("#formGSTNumber").show();
+            }
+            else
+            {
+                $("#formPanNumber").show();
+                $("#formGSTNumber").hide();
+            }
+        })
+        //alert($("#Registered").val());
+    })
+</script>

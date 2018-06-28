@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "GenerateBillTemplate";
+}
+
+<h2>Generate Bill</h2>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link href="~/Scripts/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+<link href="~/Scripts/dist/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<script src="~/Scripts/dist/js/bootstrap.min.js"></script>
+<style>
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .button1 {
+        border-radius: 2px;
+    }
+
+    .button2 {
+        border-radius: 4px;
+    }
+
+    .button3 {
+        border-radius: 8px;
+    }
+
+    .button4 {
+        border-radius: 12px;
+    }
+
+    .button5 {
+        border-radius: 50%;
+    }
+</style>
+
+
+
+    @using (@Html.BeginForm("BillTemplate", "Bill", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    Service Type :   @Html.DropDownList("Service", "Choose Service")
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    Biller  :   @Html.DropDownList("Biller", "Choose Biller")
+                </div>
+            </div>
+
+
+            @*<div id="PartialBillBody" class="form-group col-md-10">*@
+
+            <div class="form-group" id="formHidden" style="display:none">
+                @*@Html.Label("Enter Printing Details", new { @class = "col-md-12" })*@
+                @Html.Label("___________________________________________________", new { @class = "col-md-12" })
+                <div class="col-md-12" id="PartialBillBody">
+
+                </div> 
+            </div>
+
+            <a href="javascript:;" class="control-label col-md-2" id="AddParty">Add Party</a>
+            <div class="form-group" id="formHiddenParty">
+                @*<a href="javascript:;" class="control-label col-md-2" id="AddParty">Add Party</a>*@
+                @*@Html.Label("Enter Printing Details", new { @class = "col-md-12" })*@
+                @Html.Label("___________________________________________________", new { @class = "col-md-12" })
+                <div class="col-md-12" id="PlaceAddParty">
+
+                </div>
+            </div>
+            <div class="form-group">
+                    <div class="col-md-12">
+                        <input type="submit" value="Bill" class="btn btn-default" id="btnBill"/>
+                    </div>
+            </div>
+        </div>
+
+    }
+
+<script type="text/javascript">
+    $(function (ready) {
+        //$('#Service').change(function () {
+        //    var val = $('#Service').val();
+        //    //alert(val);
+        //    if (val === '18')
+        //    {
+        //        $('#Biller').show();
+        //    }
+
+        //})
+        $("#btnBill").click(function () {
+            var partyAddress = $('#Address').val();
+            var partyName = $('#CompanyName').val();
+            var partyGSTNo = $('#GSTN_Number').val();
+            var biller = $('#Biller').val();
+            var service = $('#Service').val();
+            var total = $('#Total').val();
+            var itemName = $('#txtItemName').val();
+            var itemDesc = $('#txtItemDesc').val();
+            var quantity = $('#Quantity').val();
+            alert(partyAddress + partyName + partyGSTNo + biller + service + total + itemName + itemDesc);
+            $.ajax({
+                url: 'http://localhost:8080/Bill/BillActual',
+                type : 'POST',
+                data: { biller: biller, partyName: partyName, partyAddress: partyAddress, partyGST: partyGSTNo, total: total, taxRate: service, itemName: itemName, itemDESC: itemDesc, quantity: quantity },
+                datatype: 'html',
+                success:function(result)
+                {
+                    //alert(result);
+                }
+            })
+        })
+        $("#Biller").change(function () {
+            var s = $('#Service').val();
+            var b = $('#Biller').val();
+
+            $('#formHidden').show();
+            //alert('checked');
+            $.ajax({
+                //url: 'http://localhost:8080/Bill/GeneratePaulOffsetPartial',
+                url: 'http://localhost:8080/Bill/RenderConditionalPartialPage',
+                type: 'GET',
+                data: { service: s, biller: b },
+                datatype: 'html',
+                success: function (result) {
+                    $('#PartialBillBody').html(result);
+                }
+            });
+            //$('#PartialBillBody').load('/shared/Partial_PaulOffset')
+            
+        });
+        $('#AddParty').click(function (ready) {
+            //('#formHiddenParty').show();
+            
+            $.ajax(
+                {
+                    url: 'http://localhost:8080/Bill/AddPartyDetailsBill',
+                    contentType: 'application/html;charset=utf-8',
+                    type: 'Get',
+                    dataType: 'html'
+                }).success(function (result) {
+                    $('#PlaceAddParty').html(result);
+                    $('#AddParty').hide();
+                }).error(function (xhr, status) {
+                    alert(status);
+                })
+
+        })
+        $("Total").change(function () {
+            alert("Total Checked");
+            alert($("Total").val());
+        });
+
+        $("#btnShowModal").click(function () {
+            
+            $("#printingModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#printingModal").modal('hide');
+        });
+        
+    })
+</script>
+
+
+
+

@@ -1,0 +1,130 @@
+﻿@model Billing.Models.ViewModel.BillTemplate
+
+@{
+    ViewBag.Title = "BillActual";
+}
+
+<h2>BillActual</h2>
+
+<div>
+    <h4>BillTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Biller)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Biller)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Biller_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Biller_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Biller_GST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Biller_GST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BilledTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BilledTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BilledTo_GST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BilledTo_GST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BilledTo_Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BilledTo_Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SGST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SGST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CGST)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CGST)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaxAmount)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

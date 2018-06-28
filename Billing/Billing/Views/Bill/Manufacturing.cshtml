@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+@{
+    ViewBag.Title = "Manufacturing";
+}
+
+
+
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button1 {
+            border-radius: 2px;
+        }
+
+        .button2 {
+            border-radius: 4px;
+        }
+
+        .button3 {
+            border-radius: 8px;
+        }
+
+        .button4 {
+            border-radius: 12px;
+        }
+
+        .button5 {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        @Html.Label("Enter Manufacturing Details :")
+        <div class="form-group">
+            @Html.Label("Board or Paper Cost", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.TextBox("BC")
+                @Html.ValidationMessage("BC")
+            </div>
+
+            @Html.Label("Printing Cost", new { @class = "col-md-12" })
+            <div class="col-md-2">
+                @Html.TextBox("PC")
+                @Html.ValidationMessage("PC")
+            </div>
+            <div class="col-md-10">
+                <fieldset>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button id="btnShowModal" type="button">
+                                    Calculate Printing Charge
+                                </button>
+                                <!--Section Printing Modal-->
+                                <div class="modal fade" tabindex="-1" id="printingModal"
+                                     data-keyboard="false" data-backdrop="static">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    ×
+                                                </button>
+                                                <h4 class="modal-title">Calculate Printing Charge</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    @*<div class="form-group">
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Login Username" id="inputUserName" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input class="form-control" placeholder="Login Password"
+                                                                   type="password" id="inputPassword" />
+                                                        </div>*@
+                                                    @Html.Partial("Partial_PaulOffset");
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary button button4">Sign</button>
+                                                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                                                    Hide
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            @Html.Label("Lamination Cost", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.TextBox("LC")
+                @Html.ValidationMessage("LC")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+            @Html.Label("Punching Cost", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.Editor("PunC")
+                @Html.ValidationMessage("PunC")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+
+            @Html.Label("Total", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.Editor("Total")
+                @Html.ValidationMessage("Total")
+            </div>
+            <a href="javascript:;" class="control-label col-md-2" id="AddParty">Add Party</a>
+            <div class="form-group" id="formHiddenParty" style="display:none">
+                @*<a href="javascript:;" class="control-label col-md-2" id="AddParty">Add Party</a>*@
+                @*@Html.Label("Enter Printing Details", new { @class = "col-md-12" })*@
+                @Html.Label("___________________________________________________", new { @class = "col-md-12" })
+                <div class="col-md-12" id="PlaceAddParty">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function(ready)
+    {
+        $("#PunC").change(function () {
+            var BC = $('#BC').val();
+            var PC = $('#PC').val();
+            var LC = $('#LC').val();
+            var PunC = $('#PunC').val();
+            //var BC = $('#BC').val();
+            var total = (BC+PC+LC+PunC) * (1.0 + (12 / 100));
+            $("#Total").val(total);
+        });
+
+        $('#AddParty').click(function (ready) {
+            $('#formHiddenParty').show();
+            alert('yo');
+            $.ajax(
+                {
+                    url: 'http://localhost:8080/Bill/AddPartyDetailsBill',
+                    contentType: 'application/html;charset=utf-8',
+                    type: 'Get',
+                    dataType: 'html'
+                }).success(function (result) {
+                    $('#PlaceAddParty').html(result);
+                }).error(function (xhr, status) {
+                    alert(status);
+                })
+
+
+        });
+        $("#btnShowModal").click(function () {
+            alert("yo");
+            $("#printingModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#printingModal").modal('hide');
+        });
+
+    })
+</script>

@@ -1,0 +1,99 @@
+﻿@model Billing.Models.ViewModel.BillTemplate
+
+@{
+    ViewBag.Title = "BillTemplate";
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+Invoice Number - PA-0001
+<div class="jumbotron">
+    <h1>Paul Offset</h1>
+    <p>GST Number : xxxxxxxxx</p>
+    <p>Address : 1/4 Ariff Road kolkata 700067</p>
+    <h1>Bank details : Account Number - xxxxxxxxxx<\br>Bank Name - Indian Overseas Bank</\br>Branch - Ultadanga</h1>
+    
+</div>
+<h4>Bill-Type : Seller Copy/Buyer's Copy/Challan Copy</h4>
+<h4>Bill Details : Date - 28/01/2018(DD/MM/YYYY)</h4>
+<div>
+    <div class="col-md-12">
+        Party Details
+        <table class="col-md-6">
+            <tr>
+                <th>Party Name</th>
+                <td>@Html.DisplayFor(model => model.BilledTo)</td>
+
+            </tr>
+            <tr>
+                <th>Party Address</th>
+                <td>@Html.DisplayFor(model => model.BilledTo_Address)</td>
+
+            </tr>
+            <tr>
+                <th>Party GST Number</th>
+                <td>@Html.DisplayFor(model => model.BilledTo_GST)</td>
+
+            </tr>
+        </table>
+        <table class="col-md-6">
+            <tr>
+                <th>Mode of Transport</th>
+                <td>Self/Van</td>
+            </tr>
+            <tr>
+                <th>Transport Cost</th>
+                <td>200</td>
+            </tr>
+        </table>
+    </div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <table class="col-md-12">
+            <tr>
+                <th>Item Name</th>
+                <th>Item Description</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Tax%</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.ItemName)</td>
+                <td>@Html.DisplayFor(model => model.ItemDescription)</td>
+                <td>@Html.DisplayFor(model => model.Quantity)</td>
+                <td>@Html.DisplayFor(model => model.ItemDescription)</td>
+                <td>@Html.DisplayFor(model => model.TaxRate)</td>
+                <td>@Html.DisplayFor(model => model.TotalAmount)</td>
+            </tr>
+        </table>
+        Tax Details - 
+        <table class="col-md-12">
+            <tr>
+                <th>SGST</th>
+                <td>@Html.DisplayFor(model => model.SGST)</td>
+            </tr>
+            <tr>
+                <th>CGST</th>
+                <td>@Html.DisplayFor(model => model.CGST)</td>
+            </tr>
+            <tr>
+                <th>Total Tax</th>
+                <td>@Html.DisplayFor(model => model.TaxAmount)</td>
+            </tr>
+            <tr>
+                <th>Total Payable</th>
+                <td>@Html.DisplayFor(model => model.TotalAmount)</td>
+            </tr>
+        </table>
+        
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

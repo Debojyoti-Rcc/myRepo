@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BillingModelStoreContainer" CdmEntityContainer="BillingEntities">
+    <EntitySetMapping Name="ColorRates">
+      <EntityTypeMapping TypeName="BillingModel.ColorRate">
+        <MappingFragment StoreEntitySet="ColorRate">
+          <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+          <ScalarProperty Name="ColorValue" ColumnName="ColorValue" />
+          <ScalarProperty Name="RatePerThousand" ColumnName="RatePerThousand" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Parties">
+      <EntityTypeMapping TypeName="BillingModel.Party">
+        <MappingFragment StoreEntitySet="Party">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="GSTN_Number" ColumnName="GSTN_Number" />
+          <ScalarProperty Name="PanNo" ColumnName="PanNo" />
+          <ScalarProperty Name="Registered" ColumnName="Registered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaulOffsetBills">
+      <EntityTypeMapping TypeName="BillingModel.PaulOffsetBill">
+        <MappingFragment StoreEntitySet="PaulOffsetBill">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Invoice_Number" ColumnName="Invoice_Number" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="RatePerThousand" ColumnName="RatePerThousand" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="PlateCharge" ColumnName="PlateCharge" />
+          <ScalarProperty Name="GST_rate" ColumnName="GST_rate" />
+          <ScalarProperty Name="Total_Bill_Amount" ColumnName="Total_Bill_Amount" />
+          <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Insert_Bill_PaulOffset" FunctionName="BillingModel.Store.Insert_Bill_PaulOffset" />
+    <FunctionImportMapping FunctionImportName="RegisterParty" FunctionName="BillingModel.Store.RegisterParty" />
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="BillingModel.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+          <ScalarProperty Name="GST_Paid" ColumnName="GST_Paid" />
+          <ScalarProperty Name="TotalBillAmount" ColumnName="TotalBillAmount" />
+          <ScalarProperty Name="Company_GSTNo" ColumnName="Company_GSTNo" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Bill_By" ColumnName="Bill_By" />
+          <ScalarProperty Name="Invoice_No" ColumnName="Invoice_No" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="InsertBill" FunctionName="BillingModel.Store.InsertBill" />
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+
+
+<head>
+    
+    <title></title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.Label("No Of Color", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                <select id="ddlNoOfColor">
+                    <option value="0">Select Number Of Color</option>
+                    <option value="1">Special</option>
+                    <option value="2">Bi</option>
+                    <option value="3">Tri</option>
+                    <option value="4">Four</option>
+
+                </select>
+                @Html.ValidationMessage("NoOfColor")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+            @Html.Label("Charge Per Thousand", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.TextBox("ChargePerThousand")
+                @Html.ValidationMessage("ChargePerThousand")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+            @Html.Label("Quantity", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.TextBox("Quantity")
+                @Html.ValidationMessage("Quantity")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+            @Html.Label("PlateCharge", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.Editor("PlateCharge")
+                @Html.ValidationMessage("PlateCharge")
+            </div>
+            @*</div>
+                <div class="form-group">*@
+            @Html.Label("Total", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.Editor("Total")
+                @Html.ValidationMessage("Total")
+            </div>
+            <div class="col-md-12">
+                
+                <p>** 18% GST will be added to the total bill</p>
+                
+                @Html.Label("___________________________________________________", new { @class = "col-md-12" })
+                @Html.Partial("Partial_ItemDetails");
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+</html>
+<script type="text/javascript">
+    $(function(ready)
+    {
+        $("#PlateCharge").change(function () {
+            //alert('Plate charge changed!!')
+            var noOfC = $('#ddlNoOfColor').val();
+            var rate = $('#ChargePerThousand').val();
+            var quantity = $('#Quantity').val();
+            var plateCharge = $('#PlateCharge').val();
+
+            var gstRate = 18;
+            var total = ((noOfC * rate * quantity / 1000) + (plateCharge * noOfC)) * (1 + (gstRate / 100));
+            $("#Total").val(total);
+        })
+        $("Total").change(function () {
+            alert("Total Checked");
+            alert($("Total").val());
+        });
+        
+    })
+</script>
+
